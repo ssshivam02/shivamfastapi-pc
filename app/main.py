@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import models
-from .database import engine
-from .routers import post, user, auth, misc, vote
+from app import models
+from app.database import engine
+from app.routers import post, user, auth, misc, vote
 
 #this like help in createtable when we save first our code but after use of alembic in code we dont need this
 models.Base.metadata.create_all(bind=engine)
