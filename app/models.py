@@ -1,7 +1,6 @@
-from tkinter import CASCADE
 from sqlalchemy.sql.expression import text
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, ForeignKey, Integer,String, Boolean, nullslast
+from sqlalchemy import Column, ForeignKey, Integer,String, Boolean
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from .database import Base
 #database migration we use 
