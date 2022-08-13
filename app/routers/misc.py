@@ -7,7 +7,7 @@ router=APIRouter(tags=['Miscellaneous'])
 
 @router.get("/",status_code=status.HTTP_202_ACCEPTED)
 def root():
-    return {"message":"Hello Bitch"}
+    return {"message":"Hello World!"}
 
 #------------------------------------------------------------------------------------------------#    
 @router.get("/sqlalchemy")
