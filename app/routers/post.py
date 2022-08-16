@@ -1,5 +1,6 @@
 from fastapi import Depends, Request,Response,status,HTTPException,APIRouter
 from .. import models,schemas,oauth2
+from fastapi_pagination import Page, add_pagination, paginate
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -8,6 +9,42 @@ router = APIRouter(
     prefix="/posts",tags=['POST']
 )
 
+# Query parameters
+@router.get("/page")
+def read_posts(page_num: int = 1, page_size: int = 10,db: Session = Depends(get_db)):
+    start = (page_num - 1) * page_size
+    end = start + page_size
+    data=db.query(models.Post).all()
+    response = {
+        "data": data[start:end],
+        "total": len(data),
+        "count": page_size,
+        "pagination": {}
+    }
+
+    if end >= len(data):
+        response["pagination"]["next"] = None
+
+        if page_num > 1:
+            response["pagination"]["previous"] = f"/page?page_num={page_num-1}&page_size={page_size}"
+        else:
+            response["pagination"]["previous"] = None
+    else:
+        if page_num > 1:
+            response["pagination"]["previous"] = f"/page?page_num={page_num-1}&page_size={page_size}"
+        else:
+            response["pagination"]["previous"] = None
+
+        response["pagination"]["next"] = f"/page?page_num={page_num+1}&page_size={page_size}"
+
+    return response
+
+@router.get("/pagination")
+def get_page(page_num:Optional[int]=1,page_size:Optional[int]=5,db: Session = Depends(get_db)):
+    post=db.query(models.Post).all()
+    start=(page_num-1)*page_size
+    end=start+page_size
+    return post[start:end]
 #by using orm
 #in get we get list in return so we need List[]
 #@router.get("/",response_model=List[schemas.Post])        #int is not imp we can add anything here #limit 10 is default
