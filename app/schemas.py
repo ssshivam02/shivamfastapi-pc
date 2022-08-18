@@ -23,6 +23,16 @@ class UpdatePost(BaseModel):
     content: str
     published: bool=True
 '''
+class PageFastApi(BaseModel):
+    created_at: datetime
+    content:str
+    id:int
+    owner_id:int
+    published: bool=True
+    title: str
+    
+    class Config:
+        orm_mode=True
 
 class UserCreate(BaseModel):
     email:EmailStr

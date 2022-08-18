@@ -5,13 +5,20 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from ..database import get_db
+from fastapi_pagination import Page, add_pagination, paginate,Params
+
 router = APIRouter(
     prefix="/posts",tags=['POST']
 )
+@router.get('/paginationfastapi',response_model=Page[schemas.PageFastApi])
+async def read_posts(db: Session = Depends(get_db),params: Params = Depends()):
+    data=db.query(models.Post).all()
+    return paginate(data, params)
+add_pagination(router)
 
 # Query parameters
 @router.get("/page")
-def read_posts(page_num: int = 1, page_size: int = 10,db: Session = Depends(get_db)):
+def read_posts(page_num: int = 1, page_size: int = 10, db: Session = Depends(get_db)):
     start = (page_num - 1) * page_size
     end = start + page_size
     data=db.query(models.Post).all()
