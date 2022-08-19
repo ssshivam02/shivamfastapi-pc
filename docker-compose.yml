@@ -1,18 +1,18 @@
-version: "3"
+version: "3"  #version of docker version
 services:
   api:
-    build: .
+    build: .   #current directory
     ports:
     #{{port on localhost}}:{{port on container}}
       - 8000:8000
     volumes:
       - ./:/usr/src/app
-    # env_file:
+    # env_file:   #this is for automatic to understand by docker
     #     - ./.env
     environment:
       - DATABASE_HOSTNAME=postgres
       - DATABASE_PORT=5432
-      - DATABASE_PASSWORD=Shivam123
+      - DATABASE_PASSWORD=password123
       - DATABASE_NAME=fastapi
       - DATABASE_USERNAME=postgres
       - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
@@ -28,7 +28,7 @@ services:
       - POSTGRES_PASSWORD=password123
       - POSTGRES_DB=fastapi
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - postgres-db:/var/lib/postgresql/data    #path in container
 
 volumes:
   postgres-db:
