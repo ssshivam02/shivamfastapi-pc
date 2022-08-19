@@ -6,9 +6,7 @@ services:
       - postgres
     ports:
     #{{port on localhost}}:{{port on container}}
-      - 8000:8000
-    volumes:   #this will bind local and contianer
-      - ./:/usr/src/app
+      - 80:8000
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     # env_file:   #this is for automatic to understand by docker
     #     - ./.env
